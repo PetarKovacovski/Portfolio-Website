@@ -65,7 +65,8 @@ function initBoxes() {
     const dx = (Math.random() - 0.5) * speed;
     const dy = (Math.random() - 0.5) * speed;
 
-    boxData.push({ element: box, x, y, dx, dy });
+    var paused = false;
+    boxData.push({ element: box, x, y, dx, dy, paused });
   });
 }
 
@@ -106,6 +107,9 @@ function animate(now) {
     lastTime = now;
 
     boxData.forEach((data) => {
+      if (data.paused) {
+        return;
+      }
       data.x += data.dx * seconds;
       data.y += data.dy * seconds;
       if (data.x < 0) data.x = 0;
