@@ -36,13 +36,15 @@ const container = document.getElementById('game-container');
 
 const boxW = 60;
 const boxH = 60;
-const speed = 80;
-const maxFPS = 60;
+const speed = 100;
+const maxFPS = 120;
 const frameInterval = 1000 / maxFPS;
 
 const boxData = [];
 
 function initBoxes() {
+  document.getElementById('loading').style.display = 'none';
+
   skills.forEach((imgName) => {
     const box = document.createElement('div');
     box.className = 'box';
@@ -65,16 +67,40 @@ function initBoxes() {
 
     boxData.push({ element: box, x, y, dx, dy });
   });
-
-  requestAnimationFrame(animate); // Start animation AFTER preload
 }
-initBoxes();
 
-let lastTime = performance.now();
+function removeTransition() {
+  boxData.forEach((data) => {
+    //data.element.style.transition = 'none';
+  });
+}
+
+let loadedCount = 0;
+
+skills.forEach((imgName) => {
+  const img = new Image();
+  img.src = `skills/${imgName}`;
+  img.onload = () => {
+    loadedCount++;
+    if (loadedCount === skills.length) {
+      setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+        initBoxes();
+        setTimeout(removeTransition, 2000);
+        lastTime = performance.now();
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(() => requestAnimationFrame(animate));
+        } else {
+          requestAnimationFrame(animate);
+        }
+      }, 1500); //LOADING TIME
+    }
+  };
+});
 
 function animate(now) {
   const deltaTime = now - lastTime;
-
+  const seconds = Math.min(deltaTime / 1000, 0.05);
   if (deltaTime >= frameInterval) {
     const seconds = deltaTime / 1000;
     lastTime = now;
@@ -82,11 +108,15 @@ function animate(now) {
     boxData.forEach((data) => {
       data.x += data.dx * seconds;
       data.y += data.dy * seconds;
-
+      if (data.x < 0) data.x = 0;
+      if (data.y < 0) data.y = 0;
+      if (data.x >= window.innerWidth - boxW) data.x = window.innerWidth - boxW;
+      if (data.y >= window.innerHeight - boxH)
+        data.y = window.innerHeight - boxH;
       if (data.x <= 0 || data.x >= window.innerWidth - boxW) data.dx *= -1;
       if (data.y <= 0 || data.y >= window.innerHeight - boxH) data.dy *= -1;
 
-      data.element.style.transform = `translate(${data.x}px, ${data.y}px)`;
+      data.element.style.transform = `translate3d(${data.x}px, ${data.y}px, 0) scale(1)`;
     });
   }
 
@@ -100,22 +130,21 @@ window.addEventListener('resize', () => {
   });
 });
 
-container.addEventListener('click', (event) => {
-  boxData.forEach((data) => {
-    const boxRect = data.element.getBoundingClientRect();
-
+container.addEventListener('click', (e) => {
+  for (const data of boxData) {
+    const rect = data.element.getBoundingClientRect();
+    console.log(rect);
     if (
-      event.clientX >= boxRect.left &&
-      event.clientX <= boxRect.right &&
-      event.clientY >= boxRect.top &&
-      event.clientY <= boxRect.bottom
+      e.clientX >= rect.left &&
+      e.clientX <= rect.right &&
+      e.clientY >= rect.top &&
+      e.clientY <= rect.bottom
     ) {
-      const newSpeed = speed;
+      // Only runs once, on click
       const angle = Math.random() * 2 * Math.PI;
-      data.dx = Math.cos(angle) * newSpeed;
-      data.dy = Math.sin(angle) * newSpeed;
+      data.dx = Math.cos(angle) * speed;
+      data.dy = Math.sin(angle) * speed;
+      break; // Stop after the first match
     }
-  });
+  }
 });
-
-requestAnimationFrame(animate);
