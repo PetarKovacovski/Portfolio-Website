@@ -48,6 +48,7 @@ body::after {
 }
 
 .box {
+  z-index: -1;
   left: 0;
   top: 0;
   position: absolute;
@@ -69,8 +70,9 @@ body::after {
   will-change: transform;
 }
 
-.box::before {
+/* .box::before {
   content: '';
+  background: white;
   position: absolute;
   top: 0;
   left: 0;
@@ -78,11 +80,11 @@ body::after {
   height: 100%;
   background: inherit;
   border-radius: 50%;
-  filter: blur(3px);
+  filter: blur(4px);
   opacity: 0.6;
   z-index: -1;
-  transform: scale(1.3);
-}
+  transform: scale(1.2);
+} */
 
 .box img {
   width: 80%;
@@ -93,11 +95,6 @@ body::after {
   -webkit-user-drag: none;
   pointer-events: none;
 }
-
-.box:active img {
-  transform: scale(1.1);
-}
-
 #loading {
   color: white;
   font-family: sans-serif;
