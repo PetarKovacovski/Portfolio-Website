@@ -17,21 +17,21 @@ const skills = [
 ];
 
 const customBackgrounds = {
-  'aws.svg': 'radial-gradient(circle, #ff9900 0%, #ff6600 100%)',
-  'codeforces.svg': 'linear-gradient(to right, #f5f5f5, #d9d9d9)',
-  'cpp.svg': 'radial-gradient(circle, #004482 0%, #00599C 100%)',
-  'css.svg': 'linear-gradient(135deg, #264de4 0%, #143bb5 100%)',
-  'docker.svg': 'linear-gradient(to right, #0db7ed 0%, #117aa5 100%)',
-  'express.svg': 'white',
-  'html.svg': 'linear-gradient(135deg, #e34c26 0%, #bf360c 100%)',
-  'javascript.svg': '#f0db4e',
-  'leetcode.svg': 'linear-gradient(135deg, #f9aa33 0%, #ff6d00 100%)',
-  'linux.svg': 'linear-gradient(to right, #f0f0f0 0%, #d0d0d0 100%)',
-  'mongodb.svg': 'linear-gradient(to right, #4DB33D 0%, #2e7d32 100%)',
-  'postgresql.svg': 'linear-gradient(135deg, #336791 0%, #1b3c59 100%)',
-  'react.svg': 'linear-gradient(135deg, #00d8ff 0%, #006eff 100%)',
-  'typescript.svg': '#3178c6',
-  'nodejs.svg': 'rgb(242, 242, 242)',
+  'aws.svg': '#FF9900', // Amazon orange
+  'codeforces.svg': '#EEEEEE', // light neutral
+  'cpp.svg': '#00599C', // C++ blue
+  'css.svg': '#264DE4', // CSS blue
+  'docker.svg': '#0db7ed', // Docker blue
+  'express.svg': '#FFFFFF', // White for Express
+  'html.svg': '#E34C26', // HTML orange
+  'javascript.svg': '#F0DB4F', // JS yellow
+  'leetcode.svg': '#FFA116', // LeetCode gold
+  'linux.svg': '#F2F2F2', // light gray
+  'mongodb.svg': '#4DB33D', // Mongo green
+  'postgresql.svg': '#336791', // PostgreSQL blue
+  'react.svg': '#61DAFB', // React cyan
+  'typescript.svg': '#3178C6', // TypeScript blue
+  'nodejs.svg': '#8CC84B', // Node.js green
 };
 
 const container = document.getElementById('game-container');
