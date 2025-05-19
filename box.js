@@ -13,6 +13,7 @@ const skills = [
   'postgresql.svg',
   'react.svg',
   'typescript.svg',
+  'nodejs.svg',
 ];
 
 const customBackgrounds = {
@@ -30,6 +31,7 @@ const customBackgrounds = {
   'postgresql.svg': 'linear-gradient(135deg, #336791 0%, #1b3c59 100%)',
   'react.svg': 'linear-gradient(135deg, #00d8ff 0%, #006eff 100%)',
   'typescript.svg': '#3178c6',
+  'nodejs.svg': 'rgb(242, 242, 242)',
 };
 
 const container = document.getElementById('game-container');
@@ -58,13 +60,15 @@ function initBoxes() {
     img.alt = imgName;
     box.appendChild(img);
 
+    const id = 'box-' + imgName.replace('.svg', '');
+    box.setAttribute('id', id);
+
     container.appendChild(box);
 
     const x = Math.random() * (window.innerWidth - boxW);
     const y = Math.random() * (window.innerHeight - boxH);
     const dx = (Math.random() - 0.5) * speed;
     const dy = (Math.random() - 0.5) * speed;
-
     var paused = false;
     boxData.push({ element: box, x, y, dx, dy, paused });
   });
@@ -72,7 +76,7 @@ function initBoxes() {
 
 function removeTransition() {
   boxData.forEach((data) => {
-    //data.element.style.transition = 'none';
+    //data.element.style.transition = 'none'; //MORE LAGGY FOR SOME REASON. NOW TRANSITION IS FOLLOWING THE
   });
 }
 
@@ -129,6 +133,7 @@ function animate(now) {
 
 window.addEventListener('resize', () => {
   boxData.forEach((data) => {
+    data.paused = false; //Let them float.
     data.x = Math.min(data.x, window.innerWidth - boxW);
     data.y = Math.min(data.y, window.innerHeight - boxH);
   });
@@ -137,7 +142,6 @@ window.addEventListener('resize', () => {
 container.addEventListener('click', (e) => {
   for (const data of boxData) {
     const rect = data.element.getBoundingClientRect();
-    console.log(rect);
     if (
       e.clientX >= rect.left &&
       e.clientX <= rect.right &&
@@ -151,4 +155,36 @@ container.addEventListener('click', (e) => {
       break; // Stop after the first match
     }
   }
+});
+
+const stationGroupHTML = document.getElementsByClassName('station-group');
+const stationGroups = Array.from(stationGroupHTML);
+
+stationGroups.forEach((group) => {
+  group.addEventListener('mouseenter', (e) => {
+    const station = group.querySelector('.station');
+    const skills = Array.from(station.children);
+    skills.forEach((placeholder) => {
+      const id = placeholder.id;
+      const boxElement = document.getElementById(`box-${id}`);
+      const match = boxData.find((b) => b.element === boxElement);
+
+      const { x, y } = placeholder.getBoundingClientRect();
+      match.paused = true;
+      boxElement.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1)`;
+      boxElement.classList.add('paused');
+    });
+  });
+
+  group.addEventListener('mouseleave', (e) => {
+    const station = group.querySelector('.station');
+    const skills = Array.from(station.children);
+    skills.forEach((placeholder) => {
+      const id = placeholder.id;
+      const boxElement = document.getElementById(`box-${id}`);
+      const match = boxData.find((b) => b.element === boxElement);
+      match.paused = false;
+      boxElement.classList.remove('paused');
+    });
+  });
 });
