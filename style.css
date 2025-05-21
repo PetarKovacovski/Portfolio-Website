@@ -6,7 +6,7 @@
 *::after {
   box-sizing: border-box;
   color: white;
-  
+
   font-family: 'Space Mono', monospace;
   font-weight: 400;
   font-style: normal;
@@ -79,7 +79,7 @@ body::after {
   align-items: center;
   transform: scale(0.01);
   opacity: 0.3;
-  transition: transform 0.4s ease, opacity 0.2s ease;
+  transition: transform 0.4s ease;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 
@@ -110,6 +110,7 @@ body::after {
   user-select: none;
   -webkit-user-drag: none;
   pointer-events: none;
+  transform: translateZ(0);
 }
 #loading {
   position: fixed;
@@ -145,4 +146,14 @@ body::after {
 
 .paused {
   opacity: 1;
+}
+
+@media screen and (width < 950px) {
+  #stations {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 50px;
+    grid-row-gap: 50px;
+  }
 }

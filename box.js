@@ -95,9 +95,9 @@ skills.forEach((imgName) => {
           document.getElementById('loading').style.display = 'none';
           initBoxes();
           //setTimeout(removeTransition, 5000);
-          
-          await new Promise((resolve) => setTimeout(resolve, 2000));
 
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+          setStationListeners();
           document.body.offsetHeight;
           lastTime = performance.now();
           if ('requestIdleCallback' in window) {
@@ -169,34 +169,36 @@ container.addEventListener('click', (e) => {
   }
 });
 
-const stationGroupHTML = document.getElementsByClassName('station-group');
-const stationGroups = Array.from(stationGroupHTML);
+function setStationListeners() {
+  const stationGroupHTML = document.getElementsByClassName('station-group');
+  const stationGroups = Array.from(stationGroupHTML);
+  stationGroups.forEach((group) => {
+    group.addEventListener('mouseenter', (e) => {
+      const station = group.querySelector('.station');
+      const skills = Array.from(station.children);
+      skills.forEach((placeholder) => {
+        const id = placeholder.id;
+        const boxElement = document.getElementById(`box-${id}`);
+        const match = boxData.find((b) => b.element === boxElement);
 
-stationGroups.forEach((group) => {
-  group.addEventListener('mouseenter', (e) => {
-    const station = group.querySelector('.station');
-    const skills = Array.from(station.children);
-    skills.forEach((placeholder) => {
-      const id = placeholder.id;
-      const boxElement = document.getElementById(`box-${id}`);
-      const match = boxData.find((b) => b.element === boxElement);
+        const { x, y } = placeholder.getBoundingClientRect();
+        match.paused = true;
+        boxElement.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1)`;
+        boxElement.classList.add('paused');
+      });
+    });
 
-      const { x, y } = placeholder.getBoundingClientRect();
-      match.paused = true;
-      boxElement.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1)`;
-      boxElement.classList.add('paused');
+    group.addEventListener('mouseleave', (e) => {
+      const station = group.querySelector('.station');
+      const skills = Array.from(station.children);
+      skills.forEach((placeholder) => {
+        const id = placeholder.id;
+        const boxElement = document.getElementById(`box-${id}`);
+        const match = boxData.find((b) => b.element === boxElement);
+        match.paused = false;
+
+        boxElement.classList.remove('paused');
+      });
     });
   });
-
-  group.addEventListener('mouseleave', (e) => {
-    const station = group.querySelector('.station');
-    const skills = Array.from(station.children);
-    skills.forEach((placeholder) => {
-      const id = placeholder.id;
-      const boxElement = document.getElementById(`box-${id}`);
-      const match = boxData.find((b) => b.element === boxElement);
-      match.paused = false;
-      boxElement.classList.remove('paused');
-    });
-  });
-});
+}
