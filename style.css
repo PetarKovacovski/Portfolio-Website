@@ -19,7 +19,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100dvh; /* full height even on mobile */
-  overflow-x: hidden;
+  overflow: hidden;
 }
 body {
   position: relative;
@@ -56,10 +56,9 @@ body::after {
   min-height: 100dvh;
   z-index: 1;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
-  gap: 50px;
 }
 
 .box {
@@ -129,8 +128,12 @@ body::after {
 }
 
 #stations {
-  display: flex;
-  gap: 50px;
+  margin-top: 5rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
 }
 
 .station {
@@ -148,12 +151,39 @@ body::after {
   opacity: 1;
 }
 
-@media screen and (width < 950px) {
+#NAME {
+  font-size: 3rem;
+  font-weight: bold;
+  /* margin-top: 10rem; */
+}
+
+@media screen and (width < 850px) {
+  :root {
+    font-size: 14px;
+  }
+  #NAME {
+    margin-top: 5rem;
+  }
   #stations {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 50px;
-    grid-row-gap: 50px;
+  }
+}
+@media screen and (width < 650px) {
+  :root {
+    font-size: 10px;
+  }
+  #NAME {
+    margin-top: 10vh;
+  }
+  #stations {
+    margin-top: 20vh;
+  }
+}
+
+@media screen and (width < 400px) {
+  :root {
+    --box-size: 40px;
+    font-size: 9px;
   }
 }

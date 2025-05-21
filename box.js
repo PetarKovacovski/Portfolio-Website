@@ -36,8 +36,12 @@ const customBackgrounds = {
 
 const container = document.getElementById('game-container');
 
-const boxW = 60;
-const boxH = 60;
+const rootStyles = getComputedStyle(document.documentElement);
+const boxSize = parseInt(rootStyles.getPropertyValue('--box-size'));
+
+const boxW = boxSize;
+const boxH = boxSize;
+
 const speed = 100;
 const maxFPS = 120;
 const frameInterval = 1000 / maxFPS;
@@ -96,7 +100,7 @@ skills.forEach((imgName) => {
           initBoxes();
           //setTimeout(removeTransition, 5000);
 
-          await new Promise((resolve) => setTimeout(resolve, 2000));
+          await new Promise((resolve) => setTimeout(resolve, 700));
           setStationListeners();
           document.body.offsetHeight;
           lastTime = performance.now();
