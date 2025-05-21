@@ -6,13 +6,18 @@
 *::after {
   box-sizing: border-box;
   color: white;
-  outline: 1px solid white;
+  /* outline: 1px solid white; */
+}
+
+html,
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100dvh; /* full height even on mobile */
+  overflow-x: hidden;
 }
 body {
-  margin: 0;
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
   position: relative;
   background: radial-gradient(ellipse at bottom, #0d1117 0%, #01010f 100%);
 }
@@ -44,7 +49,7 @@ body::after {
 #game-container {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100dvh;
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -68,7 +73,7 @@ body::after {
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: scale(0.5);
+  transform: scale(0.01);
   opacity: 0.3;
   transition: transform 0.4s ease, opacity 0.2s ease;
   -webkit-backface-visibility: hidden;

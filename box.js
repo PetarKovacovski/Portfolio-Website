@@ -54,9 +54,8 @@ function initBoxes() {
     if (customBackgrounds[imgName]) {
       box.style.background = customBackgrounds[imgName];
     }
-
     const img = document.createElement('img');
-    img.src = `skills/${imgName}`;
+    img.src = imageCache[imgName].src; // no second request
     img.alt = imgName;
     box.appendChild(img);
 
@@ -81,25 +80,38 @@ function removeTransition() {
 }
 
 let loadedCount = 0;
+const imageCache = {};
 
 skills.forEach((imgName) => {
   const img = new Image();
   img.src = `skills/${imgName}`;
   img.onload = () => {
-    loadedCount++;
-    if (loadedCount === skills.length) {
-      setTimeout(() => {
-        document.getElementById('loading').style.display = 'none';
-        initBoxes();
-        setTimeout(removeTransition, 2000);
-        lastTime = performance.now();
-        if ('requestIdleCallback' in window) {
-          requestIdleCallback(() => requestAnimationFrame(animate));
-        } else {
-          requestAnimationFrame(animate);
-        }
-      }, 1500); //LOADING TIME
-    }
+    img.decode().then(() => {
+      imageCache[imgName] = img;
+
+      loadedCount++;
+      if (loadedCount === skills.length) {
+        setTimeout(async () => {
+          document.getElementById('loading').style.display = 'none';
+          initBoxes();
+          //setTimeout(removeTransition, 5000);
+          
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+
+          document.body.offsetHeight;
+          lastTime = performance.now();
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => {
+              requestAnimationFrame(() => {
+                requestAnimationFrame(animate); // Delayed one more frame
+              });
+            });
+          } else {
+            requestAnimationFrame(animate);
+          }
+        }, 300); // LOADING TIME
+      }
+    });
   };
 });
 
