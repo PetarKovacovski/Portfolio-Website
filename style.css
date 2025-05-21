@@ -163,7 +163,7 @@ body::after {
   /* margin-top: 10rem; */
 }
 
-@media screen and (width < 850px) {
+@media screen and (width < 870px) {
   :root {
     font-size: 14px;
   }
@@ -175,7 +175,7 @@ body::after {
     grid-template-rows: repeat(2, 1fr);
   }
 }
-@media screen and (width < 650px) {
+@media screen and (width < 550px) {
   :root {
     font-size: 10px;
   }
@@ -187,7 +187,7 @@ body::after {
   }
 }
 
-@media screen and (width < 400px) {
+@media screen and (width < 450px) {
   :root {
     --box-size: 40px;
     font-size: 9px;
