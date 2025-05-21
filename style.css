@@ -6,6 +6,10 @@
 *::after {
   box-sizing: border-box;
   color: white;
+  
+  font-family: 'Space Mono', monospace;
+  font-weight: 400;
+  font-style: normal;
   /* outline: 1px solid white; */
 }
 
