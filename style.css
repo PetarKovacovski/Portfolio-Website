@@ -160,15 +160,11 @@ body::after {
 #NAME {
   font-size: 3rem;
   font-weight: bold;
-  /* margin-top: 10rem; */
 }
 
 @media screen and (width < 870px) {
   :root {
     font-size: 14px;
-  }
-  #NAME {
-    margin-top: 5rem;
   }
   #stations {
     grid-template-columns: repeat(2, 1fr);
@@ -177,19 +173,14 @@ body::after {
 }
 @media screen and (width < 550px) {
   :root {
-    font-size: 10px;
-  }
-  #NAME {
-    margin-top: 10vh;
-  }
-  #stations {
-    margin-top: 20vh;
+    font-size: 11px;
+    --box-size: 50px;
   }
 }
 
 @media screen and (width < 450px) {
   :root {
-    --box-size: 40px;
     font-size: 9px;
+    --box-size: 40px;
   }
 }
